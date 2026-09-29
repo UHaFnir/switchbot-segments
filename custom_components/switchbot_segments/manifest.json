@@ -1,0 +1,21 @@
+{
+  "domain": "switchbot_segments",
+  "name": "SwitchBot Segments",
+  "codeowners": [
+    "@UHaFnir"
+  ],
+  "config_flow": true,
+  "dependencies": [
+    "frontend",
+    "http",
+    "panel_custom",
+    "switchbot",
+    "websocket_api"
+  ],
+  "documentation": "https://github.com/UHaFnir/switchbot-segments",
+  "integration_type": "device",
+  "iot_class": "local_push",
+  "issue_tracker": "https://github.com/UHaFnir/switchbot-segments/issues",
+  "requirements": [],
+  "version": "0.1.0"
+}

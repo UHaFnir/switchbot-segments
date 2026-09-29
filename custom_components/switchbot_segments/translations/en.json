@@ -1,0 +1,154 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Set up SwitchBot Segments",
+        "description": "Pick a neon strip. The list comes from the devices already set up in the SwitchBot Bluetooth integration.",
+        "data": {
+          "switchbot_entry_id": "Device"
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "This strip is already set up here.",
+      "no_devices": "No matching strip found. Set up the neon strip in the SwitchBot Bluetooth integration first (Home Assistant 2026.8 or newer)."
+    }
+  },
+  "services": {
+    "set_segments": {
+      "name": "Set segments",
+      "description": "Colours individual segments of a neon strip; all other segments stay as they are.",
+      "fields": {
+        "strip": {
+          "name": "Strip",
+          "description": "The SwitchBot Segments entry of the strip."
+        },
+        "segments": {
+          "name": "Segments",
+          "description": "List of entries with \"segments\" (e.g. \"0-13, 20\", 0-based) and \"color\" ([r, g, b])."
+        }
+      }
+    },
+    "snapshot": {
+      "name": "Save colours",
+      "description": "Reads all segment colours from the strip and stores them under a name.",
+      "fields": {
+        "strip": {
+          "name": "Strip",
+          "description": "The SwitchBot Segments entry of the strip."
+        },
+        "name": {
+          "name": "Name",
+          "description": "Name of the snapshot."
+        }
+      }
+    },
+    "restore": {
+      "name": "Restore colours",
+      "description": "Restores saved segment colours; only the differences are sent.",
+      "fields": {
+        "strip": {
+          "name": "Strip",
+          "description": "The SwitchBot Segments entry of the strip."
+        },
+        "name": {
+          "name": "Name",
+          "description": "Name of the snapshot (before calibration: \"vor_kalibrierung\")."
+        }
+      }
+    },
+    "apply_preset": {
+      "name": "Apply preset",
+      "description": "Brings the strip to a preset saved in the panel; the previous state is kept as snapshot \"vor_aenderung\".",
+      "fields": {
+        "strip": {
+          "name": "Strip",
+          "description": "The SwitchBot Segments entry of the strip."
+        },
+        "name": {
+          "name": "Name",
+          "description": "Name of the preset."
+        }
+      }
+    },
+    "apply_template": {
+      "name": "Apply template",
+      "description": "Colours the strip from a template that uses the sections between the corners set in the panel; the previous state is kept as snapshot \"vor_aenderung\".",
+      "fields": {
+        "strip": {
+          "name": "Strip",
+          "description": "The SwitchBot Segments entry of the strip."
+        },
+        "template": {
+          "name": "Template",
+          "description": "How the colours are distributed."
+        },
+        "colors": {
+          "name": "Colours",
+          "description": "List of [r, g, b]. Corner accent: base colour first, then accent."
+        },
+        "steps": {
+          "name": "Steps",
+          "description": "Colour steps of a gradient; each step costs at least one command."
+        },
+        "accent_width": {
+          "name": "Accent width",
+          "description": "Corner accent: segments to the left and right of each corner."
+        }
+      }
+    }
+  },
+  "entity": {
+    "select": {
+      "preset": {
+        "name": "Preset"
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Transition and timing",
+        "description": "Takes effect immediately, no reload needed. Every command waits for the strip to confirm – fewer segments per command means more commands and a longer change.",
+        "data": {
+          "transition": "Transition for large changes",
+          "segments_per_frame": "Segments per command",
+          "wipe_min_changed": "Wipe from … changed segments",
+          "wipe_from": "Wipe direction",
+          "frame_delay_ms": "Pause between commands",
+          "live_delay_ms": "Live display delay in the panel"
+        },
+        "data_description": {
+          "transition": "Wipe: the change runs along the strip. Direct: grouped by colour, as few commands as possible.",
+          "segments_per_frame": "1–8. Smaller = smoother but slower.",
+          "wipe_min_changed": "Smaller changes (e.g. while painting) are always direct.",
+          "frame_delay_ms": "Extra pause while wiping, if it runs through too quickly.",
+          "live_delay_ms": "Wait after painting or dragging corners before the strip is updated."
+        }
+      }
+    }
+  },
+  "selector": {
+    "transition": {
+      "options": {
+        "wipe": "Wipe",
+        "direct": "Direct"
+      }
+    },
+    "wipe_from": {
+      "options": {
+        "start": "From the start",
+        "end": "From the end"
+      }
+    },
+    "template": {
+      "options": {
+        "sections": "Colour per section",
+        "gradient": "Gradient along the strip",
+        "section_gradient": "Gradient per section",
+        "mirror": "Mirrored",
+        "corner_accent": "Corner accent"
+      }
+    }
+  }
+}

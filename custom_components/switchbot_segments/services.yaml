@@ -1,0 +1,82 @@
+set_segments:
+  fields:
+    strip:
+      required: true
+      selector:
+        config_entry:
+          integration: switchbot_segments
+    segments:
+      required: true
+      example: '[{"segments": "0-13", "color": [200, 87, 255]}, {"segments": "14-59", "color": [255, 159, 0]}]'
+      selector:
+        object:
+snapshot:
+  fields:
+    strip:
+      required: true
+      selector:
+        config_entry:
+          integration: switchbot_segments
+    name:
+      default: default
+      selector:
+        text:
+restore:
+  fields:
+    strip:
+      required: true
+      selector:
+        config_entry:
+          integration: switchbot_segments
+    name:
+      default: default
+      selector:
+        text:
+apply_preset:
+  fields:
+    strip:
+      required: true
+      selector:
+        config_entry:
+          integration: switchbot_segments
+    name:
+      required: true
+      selector:
+        text:
+apply_template:
+  fields:
+    strip:
+      required: true
+      selector:
+        config_entry:
+          integration: switchbot_segments
+    template:
+      required: true
+      selector:
+        select:
+          translation_key: template
+          options:
+            - sections
+            - gradient
+            - section_gradient
+            - mirror
+            - corner_accent
+    colors:
+      required: true
+      example: "[[255, 0, 0], [0, 0, 255]]"
+      selector:
+        object:
+    steps:
+      default: 6
+      selector:
+        number:
+          min: 1
+          max: 60
+          mode: box
+    accent_width:
+      default: 1
+      selector:
+        number:
+          min: 0
+          max: 30
+          mode: box

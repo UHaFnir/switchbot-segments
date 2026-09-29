@@ -1,0 +1,20 @@
+__pycache__/
+*.pyc
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.DS_Store
+
+.env
+.env.deploy
+
+# BLE-Mitschnitte echter Geraete (MAC, verschluesselter Verkehr) -- nie committen.
+captures/
+
+# Snapshots echter Strips (Farbstaende, MAC) -- nie committen.
+snapshots/
+
+# Frontend-Abhaengigkeiten
+frontend/node_modules/

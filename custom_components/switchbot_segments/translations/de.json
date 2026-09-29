@@ -1,0 +1,154 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "SwitchBot Segments einrichten",
+        "description": "Neon-Strip auswählen. Die Liste stammt aus den bereits in der SwitchBot-Bluetooth-Integration eingerichteten Geräten.",
+        "data": {
+          "switchbot_entry_id": "Gerät"
+        }
+      }
+    },
+    "abort": {
+      "already_configured": "Dieser Strip ist hier bereits eingerichtet.",
+      "no_devices": "Kein passender Strip gefunden. Zuerst den Neon-Strip in der SwitchBot-Bluetooth-Integration einrichten (Home Assistant 2026.8 oder neuer)."
+    }
+  },
+  "services": {
+    "set_segments": {
+      "name": "Segmente setzen",
+      "description": "Färbt einzelne Segmente eines Neon-Strips; alle anderen Segmente bleiben, wie sie sind.",
+      "fields": {
+        "strip": {
+          "name": "Strip",
+          "description": "Der SwitchBot-Segments-Eintrag des Strips."
+        },
+        "segments": {
+          "name": "Segmente",
+          "description": "Liste von Einträgen mit „segments“ (z. B. \"0-13, 20\", 0-basiert) und „color“ ([r, g, b])."
+        }
+      }
+    },
+    "snapshot": {
+      "name": "Farbstand sichern",
+      "description": "Liest alle Segmentfarben vom Strip und speichert sie unter einem Namen.",
+      "fields": {
+        "strip": {
+          "name": "Strip",
+          "description": "Der SwitchBot-Segments-Eintrag des Strips."
+        },
+        "name": {
+          "name": "Name",
+          "description": "Name des Snapshots."
+        }
+      }
+    },
+    "restore": {
+      "name": "Farbstand wiederherstellen",
+      "description": "Stellt einen gesicherten Farbstand wieder her; gesendet werden nur die Unterschiede.",
+      "fields": {
+        "strip": {
+          "name": "Strip",
+          "description": "Der SwitchBot-Segments-Eintrag des Strips."
+        },
+        "name": {
+          "name": "Name",
+          "description": "Name des Snapshots (vor der Kalibrierung: „vor_kalibrierung“)."
+        }
+      }
+    },
+    "apply_preset": {
+      "name": "Preset anwenden",
+      "description": "Bringt den Strip auf ein im Panel gespeichertes Preset; der Stand davor wird als Snapshot „vor_aenderung“ gesichert.",
+      "fields": {
+        "strip": {
+          "name": "Strip",
+          "description": "Der SwitchBot-Segments-Eintrag des Strips."
+        },
+        "name": {
+          "name": "Name",
+          "description": "Name des Presets."
+        }
+      }
+    },
+    "apply_template": {
+      "name": "Vorlage anwenden",
+      "description": "Färbt den Strip nach einer Vorlage, die die Abschnitte zwischen den im Panel gesetzten Ecken nutzt; der Stand davor wird als Snapshot „vor_aenderung“ gesichert.",
+      "fields": {
+        "strip": {
+          "name": "Strip",
+          "description": "Der SwitchBot-Segments-Eintrag des Strips."
+        },
+        "template": {
+          "name": "Vorlage",
+          "description": "Wie die Farben verteilt werden."
+        },
+        "colors": {
+          "name": "Farben",
+          "description": "Liste von [r, g, b]. Ecken-Akzent: erst Grund-, dann Akzentfarbe."
+        },
+        "steps": {
+          "name": "Stufen",
+          "description": "Farbstufen eines Verlaufs; jede Stufe kostet mindestens einen Befehl."
+        },
+        "accent_width": {
+          "name": "Akzentbreite",
+          "description": "Ecken-Akzent: Segmente links und rechts jeder Ecke."
+        }
+      }
+    }
+  },
+  "entity": {
+    "select": {
+      "preset": {
+        "name": "Preset"
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Übergang und Timing",
+        "description": "Wirkt sofort, ohne Neuladen. Jeder Befehl an den Strip wartet auf dessen Bestätigung – weniger Segmente pro Befehl heißt mehr Befehle und einen längeren Wechsel.",
+        "data": {
+          "transition": "Übergang bei großen Änderungen",
+          "segments_per_frame": "Segmente pro Befehl",
+          "wipe_min_changed": "Wischen ab … geänderten Segmenten",
+          "wipe_from": "Wischrichtung",
+          "frame_delay_ms": "Pause zwischen Befehlen",
+          "live_delay_ms": "Verzögerung Live-Anzeige im Panel"
+        },
+        "data_description": {
+          "transition": "Wischen: die Änderung läuft den Strip entlang. Direkt: nach Farbe gruppiert, so wenige Befehle wie möglich.",
+          "segments_per_frame": "1–8. Kleiner = weicher, aber langsamer.",
+          "wipe_min_changed": "Kleinere Änderungen (z. B. beim Malen) gehen immer direkt.",
+          "frame_delay_ms": "Zusätzliche Pause beim Wischen, falls es zu schnell durchläuft.",
+          "live_delay_ms": "Wartezeit nach Malen oder Eckenziehen, bevor der Strip aktualisiert wird."
+        }
+      }
+    }
+  },
+  "selector": {
+    "transition": {
+      "options": {
+        "wipe": "Wischen",
+        "direct": "Direkt"
+      }
+    },
+    "wipe_from": {
+      "options": {
+        "start": "Vom Anfang",
+        "end": "Vom Ende"
+      }
+    },
+    "template": {
+      "options": {
+        "sections": "Farbe je Abschnitt",
+        "gradient": "Verlauf über den Strip",
+        "section_gradient": "Verlauf je Abschnitt",
+        "mirror": "Spiegelsymmetrisch",
+        "corner_accent": "Ecken-Akzent"
+      }
+    }
+  }
+}
